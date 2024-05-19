@@ -1,7 +1,7 @@
 # Stage 1: Build
 FROM maven:3.8.4-openjdk-17 AS builder
 WORKDIR /app
-COPY . .
+COPY src .
 RUN mvn clean package -DskipTests
 
 # Stage 2: Run

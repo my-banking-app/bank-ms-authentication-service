@@ -3,10 +3,8 @@ name: CI/CD Pipeline - Staging
 on:
   push:
     branches:
-      - staging
-      - staging/**
-      - BANK_**
-      - BANK_*/*
+      - 'staging'
+      - 'staging/**'
 
 jobs:
   build:
@@ -42,5 +40,6 @@ jobs:
           key: private_key_staging.pem
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/auth-service:staging
-            docker-compose down || true
-            docker-compose up -d
+            docker stop auth-service-staging || true
+            docker rm auth-service-staging || true
+            docker run -d --name auth-service-staging -p 8081:8081 -p 5432:5432 ${{ secrets.DOCKER_USERNAME }}/auth-service:staging
