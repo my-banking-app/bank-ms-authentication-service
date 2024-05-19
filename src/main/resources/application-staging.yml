@@ -7,6 +7,10 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  security:
+    user:
+      name: user
+      password: password
 
 server:
   port: 8081
