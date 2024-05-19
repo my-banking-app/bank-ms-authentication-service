@@ -33,7 +33,7 @@ jobs:
           chmod 600 private_key.pem
 
       - name: SSH to VPS and deploy
-        uses: appleboy/ssh-action@v0.1.6
+        uses: appleboy/ssh-action@v0.1.3
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME}}
