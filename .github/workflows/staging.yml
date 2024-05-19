@@ -29,14 +29,14 @@ jobs:
 
       - name: Prepare SSH key file
         run: |
-          echo "${{ secrets.VPS_PRIVATE_KEY_STAGING }}" > private_key_staging.pem
-          chmod 600 private_key_staging.pem
+          echo "${{ secrets.VPS_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
 
       - name: SSH to VPS and deploy
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: ${{ secrets.VPS_HOST_STAGING }}
-          username: ${{ secrets.VPS_USERNAME_STAGING }}
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME}}
           key: private_key_staging.pem
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/auth-service:staging
