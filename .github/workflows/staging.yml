@@ -27,21 +27,16 @@ jobs:
         run: |
           docker buildx build --push --tag ${{ secrets.DOCKER_USERNAME }}/auth-service:staging .
 
-      - name: Prepare SSH key file
-        run: |
-          echo "${{ secrets.VPS_PRIVATE_KEY }}" > private_key_staging.pem
-          chmod 600 private_key_staging.pem
-
       - name: Debug SSH Key
         run: |
           echo "${{ secrets.VPS_PRIVATE_KEY }}" | head -c 20
 
       - name: SSH to VPS and deploy
-        uses: appleboy/ssh-action@v0.1.6
+        uses: appleboy/ssh-action@v0.1.3
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
-          key: private_key_staging.pem
+          key: ${{ secrets.VPS_PRIVATE_KEY }}
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/auth-service:staging
             docker stop auth-service-staging || true
