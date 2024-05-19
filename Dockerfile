@@ -1,7 +1,8 @@
 # Stage 1: Build
 FROM maven:3.8.4-openjdk-17 AS builder
 WORKDIR /app
-COPY src .
+COPY pom.xml .
+COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Stage 2: Run
@@ -9,15 +10,16 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the Spring Boot app
-COPY --from=builder /app/target/auth-service-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=builder /app/target/my-banking-app-authentication-service-0.0.1-SNAPSHOT.jar app.jar
 
 # Install PostgreSQL
-RUN apt-get update && apt-get install -y postgresql
+RUN apt-get update && apt-get install -y postgresql postgresql-contrib
 
 # Initialize the database
+USER postgres
 RUN service postgresql start && \
-    sudo -u postgres psql -c "CREATE USER staging_user WITH PASSWORD 'staging_password';" && \
-    sudo -u postgres psql -c "CREATE DATABASE staging_db OWNER staging_user;"
+    psql --command "CREATE USER staging_user WITH SUPERUSER PASSWORD 'staging_password';" && \
+    createdb -O staging_user staging_db
 
 # Expose the ports
 EXPOSE 5432 8081
