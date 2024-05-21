@@ -26,11 +26,6 @@ jobs:
         run: |
           docker buildx build --file Dockerfile.prod --push --tag ${{ secrets.DOCKER_USERNAME }}/auth-service:prod .
 
-      - name: Prepare SSH key file
-        run: |
-          echo "${{ secrets.VPS_PRIVATE_KEY }}" > private_key.pem
-          chmod 600 private_key.pem
-
       - name: Debug SSH Key
         run: |
           echo "${{ secrets.VPS_PRIVATE_KEY }}" | head -c 20
@@ -40,7 +35,7 @@ jobs:
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
-          key: private_key.pem
+          key: ${{ secrets.VPS_PRIVATE_KEY }}
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/auth-service:prod
             docker stop auth-service-prod || true
