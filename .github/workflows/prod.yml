@@ -28,8 +28,8 @@ jobs:
 
       - name: Prepare SSH key file
         run: |
-          echo "${{ secrets.VPS_PRIVATE_KEY }}" > private_key_prod.pem
-          chmod 600 private_key_prod.pem
+          echo "${{ secrets.VPS_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
 
       - name: Debug SSH Key
         run: |
@@ -40,7 +40,7 @@ jobs:
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
-          key: private_key_prod.pem
+          key: private_key.pem
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/auth-service:prod
             docker stop auth-service-prod || true
