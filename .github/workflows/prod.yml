@@ -24,7 +24,7 @@ jobs:
 
       - name: Build and push production image
         run: |
-          docker buildx build --file Dockerfile.prod --push --tag ${{ secrets.DOCKER_USERNAME }}/auth-service:prod .
+          docker buildx build --push --tag ${{ secrets.DOCKER_USERNAME }}/auth-service:prod .
 
       - name: Debug SSH Key
         run: |
@@ -40,4 +40,4 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/auth-service:prod
             docker stop auth-service-prod || true
             docker rm auth-service-prod || true
-            docker run -d --name auth-service-prod -p 8082:8082 -p 5433:5433 ${{ secrets.DOCKER_USERNAME }}/auth-service:prod
+            docker run -d --name auth-service-prod -p 8082:8082 -e SPRING_PROFILE=prod ${{ secrets.DOCKER_USERNAME }}/auth-service:prod
