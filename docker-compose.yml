@@ -2,12 +2,13 @@ version: '3.8'
 
 services:
   auth-service:
-    build: src
+    image: camilobr89/auth-service:${TAG} # Utiliza la imagen desde un registro, asegúrate de construirla y etiquetarla en tus pipelines.
     environment:
-      - PROFILE=staging
-      - DB_NAME=staging_db
-      - DB_USER=staging_user
-      - DB_PASSWORD=staging_password
+      SPRING_PROFILES_ACTIVE: ${PROFILE} # Ajusta el perfil de Spring basado en la variable de entorno.
+      DB_NAME: ${DB_NAME}               # Nombre de la base de datos.
+      DB_USER: ${DB_USER}               # Usuario de la base de datos.
+      DB_PASSWORD: ${DB_PASSWORD}       # Contraseña de la base de datos.
     ports:
-      - "8081:8081"
-      - "5432:5432"
+      - "${PORT}:8081"                  # Puerto para el servicio de Spring Boot.
+      - "${DB_PORT}:5432"               # Puerto para PostgreSQL si es necesario.
+
