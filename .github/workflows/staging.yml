@@ -8,6 +8,18 @@ on:
       - 'BANK-**'
 
 jobs:
+  test-ssh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install SSH
+        run: sudo apt-get update && sudo apt-get install -y openssh-client
+
+      - name: Test SSH Connection
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh -o StrictHostKeyChecking=no -v ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} "echo 'SSH connection successful'"
   build-and-deploy:
     runs-on: ubuntu-latest
     env:
@@ -18,19 +30,6 @@ jobs:
       DB_PASSWORD: staging_password # o 'prod_password' para producción
       PORT: 8081 # o 8082 para producción
       DB_PORT: 5432
-
-    test-ssh:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Install SSH
-          run: sudo apt-get update && sudo apt-get install -y openssh-client
-
-        - name: Test SSH Connection
-          run: |
-            mkdir -p ~/.ssh
-            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-            chmod 600 ~/.ssh/id_rsa
-            ssh -o StrictHostKeyChecking=no -v ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} "echo 'SSH connection successful'"
 
     steps:
       - name: Checkout code
