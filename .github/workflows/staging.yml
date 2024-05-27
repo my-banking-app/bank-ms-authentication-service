@@ -11,15 +11,15 @@ jobs:
   test-ssh:
     runs-on: ubuntu-latest
     steps:
-      - name: Install SSH
-        run: sudo apt-get update && sudo apt-get install -y openssh-client
+      - name: Setup SSH Agent
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Test SSH Connection
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
           ssh -o StrictHostKeyChecking=no -v ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} "echo 'SSH connection successful'"
+
   build-and-deploy:
     runs-on: ubuntu-latest
     env:
