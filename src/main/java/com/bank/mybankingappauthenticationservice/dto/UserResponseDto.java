@@ -1,77 +1,25 @@
-package com.bank.mybankingappauthenticationservice.model;
+package com.bank.mybankingappauthenticationservice.dto;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import org.hibernate.validator.constraints.Length;
-import java.util.UUID;
-import com.bank.mybankingappauthenticationservice.enums.IdentificationType;
 import com.bank.mybankingappauthenticationservice.enums.Gender;
+import com.bank.mybankingappauthenticationservice.enums.IdentificationType;
+
+import java.util.UUID;
 
 
-@Entity
-@Table(name = "users")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "UUID", updatable = false, nullable = false)
+public class UserResponseDto {
     private UUID id;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private IdentificationType identificationType;
-
-    @NotBlank
-    @Column(nullable = false)
+    private String identificationType;
     private String identificationNumber;
-
-    @NotBlank
-    @Column(nullable = false)
     private String firstName;
-
-    @NotBlank
-    @Column(nullable = false)
     private String lastName;
-
-    @Min(18)
-    @Column(nullable = false)
-    private int age;
-
-    @NotBlank
-    @Column(nullable = false)
+    private Integer age;
     private String cityOfResidence;
-
-    @NotBlank
-    @Column(nullable = false)
     private String nationality;
-
-    @NotBlank
-    @Column(nullable = false)
     private String phoneNumber;
-
-    @NotBlank
-    @Column(nullable = false)
     private String civilStatus;
-
-    @Email
-    @Column(nullable = false)
     private String email;
+    private String gender;
 
-    @NotBlank
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")
-    @Column(nullable = false)
-    private String password;
-
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Gender gender;
-
-    @Column(nullable = false)
-    private boolean dataProcessingAgreement;
-
-
-    // getters and setters
     public UUID getId() {
         return id;
     }
@@ -80,11 +28,11 @@ public class User {
         this.id = id;
     }
 
-    public IdentificationType getIdentificationType() {
+    public String getIdentificationType() {
         return identificationType;
     }
 
-    public void setIdentificationType(IdentificationType identificationType) {
+    public void setIdentificationType(String identificationType) {
         this.identificationType = identificationType;
     }
 
@@ -112,11 +60,11 @@ public class User {
         this.lastName = lastName;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
@@ -160,27 +108,11 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public boolean isDataProcessingAgreement() {
-        return dataProcessingAgreement;
-    }
-
-    public void setDataProcessingAgreement(boolean dataProcessingAgreement) {
-        this.dataProcessingAgreement = dataProcessingAgreement;
     }
 }

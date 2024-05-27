@@ -1,4 +1,11 @@
+C:\Users\USER\OneDrive\Documentos\Projects\my-banking-app\bank-ms-authentication-service\src\main\java\com\bank\mybankingappauthenticationservice\repository\UserRepository.java
+C:\Users\USER\OneDrive\Documentos\Projects\my-banking-app\bank-ms-authentication-service\src\main\java\com\bank\mybankingappauthenticationservice\service\UserService.java
+C:\Users\USER\OneDrive\Documentos\Projects\my-banking-app\bank-ms-authentication-service\src\main\java\com\bank\mybankingappauthenticationservice\controller\AuthenticationController.java
+C:\Users\USER\OneDrive\Documentos\Projects\my-banking-app\bank-ms-authentication-service\src\main\java\com\bank\mybankingappauthenticationservice\dto\UserResponseDto.java
+C:\Users\USER\OneDrive\Documentos\Projects\my-banking-app\bank-ms-authentication-service\src\main\java\com\bank\mybankingappauthenticationservice\config\SecurityConfig.java
+C:\Users\USER\OneDrive\Documentos\Projects\my-banking-app\bank-ms-authentication-service\src\main\java\com\bank\mybankingappauthenticationservice\dto\UserDto.java
 C:\Users\USER\OneDrive\Documentos\Projects\my-banking-app\bank-ms-authentication-service\src\main\java\com\bank\mybankingappauthenticationservice\model\User.java
-C:\Users\USER\OneDrive\Documentos\Projects\my-banking-app\bank-ms-authentication-service\src\main\java\com\bank\mybankingappauthenticationservice\controller\AuthController.java
+C:\Users\USER\OneDrive\Documentos\Projects\my-banking-app\bank-ms-authentication-service\src\main\java\com\bank\mybankingappauthenticationservice\enums\Gender.java
+C:\Users\USER\OneDrive\Documentos\Projects\my-banking-app\bank-ms-authentication-service\src\main\java\com\bank\mybankingappauthenticationservice\enums\IdentificationType.java
+C:\Users\USER\OneDrive\Documentos\Projects\my-banking-app\bank-ms-authentication-service\src\main\java\com\bank\mybankingappauthenticationservice\dto\LoginRequest.java
 C:\Users\USER\OneDrive\Documentos\Projects\my-banking-app\bank-ms-authentication-service\src\main\java\com\bank\mybankingappauthenticationservice\MyBankingAppAuthenticationServiceApplication.java
-C:\Users\USER\OneDrive\Documentos\Projects\my-banking-app\bank-ms-authentication-service\src\main\java\com\bank\mybankingappauthenticationservice\service\AuthService.java
