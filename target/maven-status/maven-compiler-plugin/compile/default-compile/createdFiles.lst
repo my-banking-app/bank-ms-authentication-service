@@ -1,1 +1,10 @@
+com\bank\mybankingappauthenticationservice\dto\LoginRequest.class
+com\bank\mybankingappauthenticationservice\dto\UserResponseDto.class
+com\bank\mybankingappauthenticationservice\enums\Gender.class
+com\bank\mybankingappauthenticationservice\controller\AuthenticationController.class
+com\bank\mybankingappauthenticationservice\enums\IdentificationType.class
+com\bank\mybankingappauthenticationservice\repository\UserRepository.class
+com\bank\mybankingappauthenticationservice\dto\UserDto.class
+com\bank\mybankingappauthenticationservice\service\UserService.class
+com\bank\mybankingappauthenticationservice\config\SecurityConfig.class
 com\bank\mybankingappauthenticationservice\MyBankingAppAuthenticationServiceApplication.class

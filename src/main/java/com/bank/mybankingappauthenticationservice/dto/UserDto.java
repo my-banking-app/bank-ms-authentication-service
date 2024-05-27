@@ -1,84 +1,24 @@
-package com.bank.mybankingappauthenticationservice.model;
-
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import org.hibernate.validator.constraints.Length;
-import java.util.UUID;
+package com.bank.mybankingappauthenticationservice.dto;
 import com.bank.mybankingappauthenticationservice.enums.IdentificationType;
 import com.bank.mybankingappauthenticationservice.enums.Gender;
 
-
-@Entity
-@Table(name = "users")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "UUID", updatable = false, nullable = false)
-    private UUID id;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+public class UserDto {
     private IdentificationType identificationType;
-
-    @NotBlank
-    @Column(nullable = false)
     private String identificationNumber;
-
-    @NotBlank
-    @Column(nullable = false)
     private String firstName;
-
-    @NotBlank
-    @Column(nullable = false)
     private String lastName;
-
-    @Min(18)
-    @Column(nullable = false)
     private int age;
-
-    @NotBlank
-    @Column(nullable = false)
     private String cityOfResidence;
-
-    @NotBlank
-    @Column(nullable = false)
     private String nationality;
-
-    @NotBlank
-    @Column(nullable = false)
     private String phoneNumber;
-
-    @NotBlank
-    @Column(nullable = false)
     private String civilStatus;
-
-    @Email
-    @Column(nullable = false)
     private String email;
-
-    @NotBlank
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")
-    @Column(nullable = false)
     private String password;
-
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Gender gender;
-
-    @Column(nullable = false)
     private boolean dataProcessingAgreement;
 
+    // Getters y setters para cada campo
 
-    // getters and setters
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public IdentificationType getIdentificationType() {
         return identificationType;
