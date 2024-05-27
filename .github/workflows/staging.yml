@@ -51,6 +51,6 @@ jobs:
             export DB_PASSWORD=${{ env.DB_PASSWORD }}
             export PORT=${{ env.PORT }}
             export DB_PORT=${{ env.DB_PORT }}
-            cd ../../.
+            cd ../../
             docker-compose pull
             docker-compose up -d
