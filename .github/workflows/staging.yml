@@ -5,8 +5,7 @@ on:
     branches:
       - 'staging'
       - 'staging/**'
-      - 'BANK_**'
-      - 'BANK_*/*'
+      - 'BANK-**'
 
 jobs:
   build:
