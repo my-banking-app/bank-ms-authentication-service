@@ -4,6 +4,8 @@ on:
   pull_request:
     branches:
       - 'main'
+      - 'BANK_**'
+      - 'BANK_*/*'
 
 jobs:
   build:

@@ -20,8 +20,7 @@ USER postgres
 RUN service postgresql start && \
     psql --command "CREATE USER prod_user WITH SUPERUSER PASSWORD 'prod_password';" && \
     createdb -O prod_user prod_db && \
-    psql --command "CREATE USER staging_user WITH SUPERUSER PASSWORD 'staging_password';" && \
-    createdb -O staging_user staging_db
+
 
 # Expose the ports
 EXPOSE 5432 8081 8082
