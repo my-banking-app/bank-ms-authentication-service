@@ -19,8 +19,7 @@ RUN apt-get update && apt-get install -y postgresql postgresql-contrib
 USER postgres
 RUN service postgresql start && \
     psql --command "CREATE USER prod_user WITH SUPERUSER PASSWORD 'prod_password';" && \
-    createdb -O prod_user prod_db && \
-
+    createdb -O prod_user prod_db
 
 # Expose the ports
 EXPOSE 5432 8081 8082
