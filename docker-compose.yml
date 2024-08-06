@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  auth-service:
+    build: src
+    environment:
+      - PROFILE=staging
+      - DB_NAME=staging_db
+      - DB_USER=staging_user
+      - DB_PASSWORD=staging_password
+    ports:
+      - "8081:8081"
+      - "5432:5432"
