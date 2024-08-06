@@ -43,4 +43,4 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/auth-service:staging
             docker stop auth-service-staging || true
             docker rm auth-service-staging || true
-            docker run -d --name auth-service-staging -p 8081:8081 -p 5432:5432 -e SPRING_PROFILE=staging ${{ secrets.DOCKER_USERNAME }}/auth-service:staging
+            docker run -d --name auth-service-staging -p 8081:8081 -e SPRING_PROFILE=staging ${{ secrets.DOCKER_USERNAME }}/auth-service:staging
