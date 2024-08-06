@@ -10,7 +10,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the Spring Boot app
-COPY --from=builder /app/target/my-banking-app-authentication-service-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=builder /app/target/mybankingapp.authenticationservice-0.0.1-SNAPSHOT.jar app.jar
 
 # Install PostgreSQL
 RUN apt-get update && apt-get install -y postgresql postgresql-contrib
