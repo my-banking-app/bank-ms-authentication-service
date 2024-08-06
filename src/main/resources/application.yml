@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/prod_db
+    username: prod_user
+    password: prod_password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  security:
+    user:
+      name: user
+      password: password
+
+server:
+  port: 8082
