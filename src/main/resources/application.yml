@@ -11,6 +11,16 @@ spring:
     user:
       name: user
       password: password
+jwt:
+  secret: KrgrqeSrMrEtXZNikyzGdCQrSA9XpcKFjnfXfK6J18uVD4VtPLyAccSHYAgCK6qZZom08CpPMQt3yPbWJ7EjuvTluMNliOwnIc0xblDWDTiMaAIiQ36ba2Qj4VkRuq2N
+  expiration: 86400000
+
+logging:
+  level:
+    org.springframework.web.filter.CorsFilter: DEBUG
+    org.springframework.web.servlet: DEBUG
+    org.springframework.security: DEBUG
+
 
 server:
   port: 8082
