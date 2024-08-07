@@ -27,9 +27,10 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/hello").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(new ApiKeyFilter(), UsernamePasswordAuthenticationFilter.class);
+
 
         return http.build();
     }
