@@ -22,5 +22,6 @@ logging:
     org.springframework.security: DEBUG
 
 
+
 server:
   port: 8082
