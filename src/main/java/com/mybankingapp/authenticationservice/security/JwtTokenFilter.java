@@ -20,10 +20,10 @@ import java.io.IOException;
 
 public class JwtTokenFilter extends OncePerRequestFilter {
 
-    @Autowired
+
     private JwtTokenUtil jwtTokenUtil;
 
-    @Autowired
+
     private UserService userService;
 
     @Override
@@ -33,7 +33,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         String jwt = getJwtFromRequest(request);
         if (jwt != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             String identificationNumber = jwtTokenUtil.getIdentificationNumberFromToken(jwt);
-            IdentificationType identificationType = jwtTokenUtil.getIdentificationTypeFromToken(jwt); // Asumiendo que también extraes el tipo
+            IdentificationType identificationType = jwtTokenUtil.getIdentificationTypeFromToken(jwt);
             UserDetails userDetails = userService.loadUserByIdentificationTypeAndNumber(identificationType, identificationNumber);
 
             if (jwtTokenUtil.validateToken(jwt, userDetails.getUsername())) {
