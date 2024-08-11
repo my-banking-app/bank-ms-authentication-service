@@ -21,6 +21,11 @@ import java.util.Arrays;
 public class SecurityConfig {
 
     @Bean
+    public ApiKeyFilter apiKeyFilter() {
+        return new ApiKeyFilter();
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
@@ -30,7 +35,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/hello").permitAll()
                         .anyRequest().authenticated())
-                .addFilterBefore(new ApiKeyFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(apiKeyFilter(), UsernamePasswordAuthenticationFilter.class);
 
 
         return http.build();
