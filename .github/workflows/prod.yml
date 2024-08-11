@@ -42,4 +42,8 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/auth-service:prod
             docker stop auth-service-prod || true
             docker rm auth-service-prod || true
-            docker run -d --name auth-service-prod -p 8082:8082 -e SPRING_PROFILE=prod ${{ secrets.DOCKER_USERNAME }}/auth-service:prod
+            docker run -d --name auth-service-prod -p 8082:8082 \
+              -e API_KEY=${{ secrets.API_KEY }} \
+              -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
+              -e SPRING_PROFILE=prod \
+              ${{ secrets.DOCKER_USERNAME }}/auth-service:prod
