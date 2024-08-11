@@ -8,6 +8,8 @@ services:
       - DB_NAME=staging_db
       - DB_USER=staging_user
       - DB_PASSWORD=staging_password
+      - API_KEY=${API_KEY}
+      - JWT_SECRET=${JWT_SECRET}
     ports:
       - "8081:8081"
       - "5432:5432"
