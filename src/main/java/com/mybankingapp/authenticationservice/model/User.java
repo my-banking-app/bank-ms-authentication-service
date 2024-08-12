@@ -1,6 +1,5 @@
 package com.mybankingapp.authenticationservice.model;
 
-
 import com.mybankingapp.authenticationservice.enums.Gender;
 import com.mybankingapp.authenticationservice.enums.IdentificationType;
 import jakarta.persistence.*;
@@ -8,70 +7,114 @@ import jakarta.validation.constraints.*;
 
 import java.util.UUID;
 
+/**
+ * Represents a User entity in the authentication service.
+ */
 @Entity
 @Table(name = "users")
 public class User {
 
+    /**
+     * Unique identifier for the user.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    /**
+     * Type of identification for the user.
+     */
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private IdentificationType identificationType;
 
+    /**
+     * Identification number of the user.
+     */
     @NotBlank
     @Column(nullable = false)
     private String identificationNumber;
 
+    /**
+     * First name of the user.
+     */
     @NotBlank
     @Column(nullable = false)
     private String firstName;
 
+    /**
+     * Last name of the user.
+     */
     @NotBlank
     @Column(nullable = false)
     private String lastName;
 
+    /**
+     * Age of the user. Must be at least 18.
+     */
     @Min(18)
     @Column(nullable = false)
     private int age;
 
+    /**
+     * City of residence of the user.
+     */
     @NotBlank
     @Column(nullable = false)
     private String cityOfResidence;
 
+    /**
+     * Nationality of the user.
+     */
     @NotBlank
     @Column(nullable = false)
     private String nationality;
 
+    /**
+     * Phone number of the user.
+     */
     @NotBlank
     @Column(nullable = false)
     private String phoneNumber;
 
+    /**
+     * Civil status of the user.
+     */
     @NotBlank
     @Column(nullable = false)
     private String civilStatus;
 
+    /**
+     * Email address of the user.
+     */
     @Email
     @Column(nullable = false)
     private String email;
 
+    /**
+     * Password of the user. Must meet complexity requirements.
+     */
     @NotBlank
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")
     @Column(nullable = false)
     private String password;
 
+    /**
+     * Gender of the user.
+     */
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Gender gender;
 
+    /**
+     * Indicates whether the user has agreed to data processing.
+     */
     @Column(nullable = false)
     private boolean dataProcessingAgreement;
 
     // Getters and Setters
-
 
     public UUID getId() {
         return id;
