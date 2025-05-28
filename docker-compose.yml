@@ -2,14 +2,31 @@ version: '3.8'
 
 services:
   auth-service:
-    build: src
+    build: .
+    image: auth-service
     environment:
-      - PROFILE=staging
-      - DB_NAME=staging_db
-      - DB_USER=staging_user
-      - DB_PASSWORD=staging_password
+      - SPRING_PROFILES_ACTIVE=prod
+      - DB_NAME=prod_db
+      - DB_USER=prod_user
+      - DB_PASSWORD=prod_password
       - API_KEY=${API_KEY}
       - JWT_SECRET=${JWT_SECRET}
     ports:
-      - "8081:8081"
-      - "5432:5432"
+      - "8082:8082"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:13
+    container_name: auth-db
+    environment:
+      POSTGRES_DB: prod_db
+      POSTGRES_USER: prod_user
+      POSTGRES_PASSWORD: prod_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
