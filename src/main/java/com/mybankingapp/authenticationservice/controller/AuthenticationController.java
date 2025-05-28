@@ -43,15 +43,20 @@ public class AuthenticationController {
      */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        UserResponseDto userDto = userService.login(
-                loginRequest.getIdentificationType().name(),
-                loginRequest.getIdentificationNumber(),
-                loginRequest.getPassword()
-        );
-        if (userDto != null) {
-            return ResponseEntity.ok(userDto);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        try {
+            UserResponseDto userDto = userService.login(
+                    loginRequest.getIdentificationType().name(),
+                    loginRequest.getIdentificationNumber(),
+                    loginRequest.getPassword()
+            );
+            if (userDto != null) {
+                return ResponseEntity.ok(userDto);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Login failed: " + e.getMessage());
         }
     }
 }
