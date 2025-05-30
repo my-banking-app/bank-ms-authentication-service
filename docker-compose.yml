@@ -6,9 +6,10 @@ services:
     image: auth-service
     environment:
       - SPRING_PROFILES_ACTIVE=prod
-      - DB_NAME=prod_db
-      - DB_USER=prod_user
-      - DB_PASSWORD=prod_password
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
       - API_KEY=${API_KEY}
       - JWT_SECRET=${JWT_SECRET}
     ports:
@@ -20,9 +21,9 @@ services:
     image: postgres:17.5-alpine
     container_name: auth-db
     environment:
-      POSTGRES_DB: prod_db
-      POSTGRES_USER: prod_user
-      POSTGRES_PASSWORD: prod_password
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5433:5432"
     volumes:
