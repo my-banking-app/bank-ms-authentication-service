@@ -43,6 +43,7 @@ jobs:
             docker stop auth-service-prod || true
             docker rm auth-service-prod || true
             docker run -d --restart=unless-stopped --name auth-service-prod -p 8082:8082 \
+              --network banking-net \
               -e SPRING_PROFILES_ACTIVE=prod \
               -e SPRING_DATASOURCE_URL=jdbc:postgresql://auth-db/prod_db \
               -e DB_NAME=prod_db \
