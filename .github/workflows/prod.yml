@@ -45,10 +45,10 @@ jobs:
             docker run -d --restart=unless-stopped --name auth-service-prod -p 8082:8082 \
               --network banking-net \
               -e SPRING_PROFILES_ACTIVE=prod \
-              -e SPRING_DATASOURCE_URL=jdbc:postgresql://auth-db/prod_db \
-              -e DB_NAME=prod_db \
-              -e DB_USER=prod_user \
-              -e DB_PASSWORD=prod_password \
+              -e SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }} \
+              -e DB_NAME=${{ secrets.DB_NAME }} \
+              -e DB_USER=${{ secrets.DB_USER }} \
+              -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
               -e API_KEY=${{ secrets.API_KEY }} \
               -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
               ${{ secrets.DOCKER_USERNAME }}/auth-service:prod
