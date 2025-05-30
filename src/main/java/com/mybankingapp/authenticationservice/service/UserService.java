@@ -34,6 +34,13 @@ public class UserService {
      * @return the registered user
      */
     public User registerUser(UserDto userDto) {
+        boolean exists = userRepository.existsByIdentificationTypeAndIdentificationNumber(
+                userDto.getIdentificationType(), userDto.getIdentificationNumber());
+
+        if (exists) {
+            throw new IllegalArgumentException("El usuario con esta identificación ya está registrado.");
+        }
+
         User user = new User();
         user.setIdentificationType(userDto.getIdentificationType());
         user.setIdentificationNumber(userDto.getIdentificationNumber());
@@ -50,6 +57,7 @@ public class UserService {
         user.setDataProcessingAgreement(userDto.isDataProcessingAgreement());
         return userRepository.save(user);
     }
+
 
     /**
      * Authenticates a user and generates a JWT token if successful.
