@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://auth-db:5432/prod_db
+    url: jdbc:postgresql://auth-db:5433/prod_db
     username: prod_user
     password: prod_password
   jpa:
