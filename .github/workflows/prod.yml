@@ -42,7 +42,7 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/auth-service:prod
             docker stop auth-service-prod || true
             docker rm auth-service-prod || true
-            docker run -d --name auth-service-prod -p 8082:8082 \
+            docker run -d --restart=unless-stopped --name auth-service-prod -p 8082:8082 \
               -e SPRING_PROFILES_ACTIVE=prod \
               -e DB_NAME=prod_db \
               -e DB_USER=prod_user \
