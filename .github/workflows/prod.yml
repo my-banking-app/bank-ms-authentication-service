@@ -33,7 +33,7 @@ jobs:
           echo "${{ secrets.VPS_PRIVATE_KEY }}" | head -c 20
 
       - name: SSH to VPS and deploy
-        uses: appleboy/ssh-action@v0.1.3
+        uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
