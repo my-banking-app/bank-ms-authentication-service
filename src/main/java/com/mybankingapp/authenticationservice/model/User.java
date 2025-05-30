@@ -55,7 +55,7 @@ public class User {
      */
     @Min(18)
     @Column(nullable = false)
-    private int ages;
+    private int age;
 
     /**
      * City of residence of the user.
@@ -158,11 +158,11 @@ public class User {
 
     @Min(18)
     public int getAge() {
-        return ages;
+        return age;
     }
 
-    public void setAge(@Min(18) int ages) {
-        this.ages = ages;
+    public void setAge(@Min(18) int age) {
+        this.age = age;
     }
 
     public @NotBlank String getCityOfResidence() {
