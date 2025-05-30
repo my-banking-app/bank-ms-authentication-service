@@ -1,10 +1,12 @@
-FROM maven:3.8.4-openjdk-17 AS builder
+# Etapa de build con Maven y JDK 21
+FROM maven:3.9.6-eclipse-temurin-21 AS builder
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-FROM openjdk:17-jdk-slim
+# Etapa de ejecución con JRE 21 en Alpine
+FROM eclipse-temurin:21.0.2_13-jre-alpine
 WORKDIR /app
 COPY --from=builder /app/target/*.jar app.jar
 EXPOSE 8081
