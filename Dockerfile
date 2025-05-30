@@ -10,4 +10,4 @@ FROM eclipse-temurin:21.0.2_13-jre-alpine
 WORKDIR /app
 COPY --from=builder /app/target/*.jar app.jar
 EXPOSE 8082
-CMD ["java", "-Dspring.profiles.active=staging", "-jar", "app.jar"]
+CMD ["java", "-Dspring.profiles.active=prod", "-jar", "app.jar"]
