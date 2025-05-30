@@ -20,6 +20,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
      * @return the User with the specified identification type and number, or null if no such user exists
      */
     User findByIdentificationTypeAndIdentificationNumber(IdentificationType identificationType, String identificationNumber);
+    boolean existsByIdentificationTypeAndIdentificationNumber(IdentificationType identificationType, String identificationNumber);
 
 }
 

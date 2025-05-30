@@ -11,7 +11,12 @@ import java.util.UUID;
  * Represents a User entity in the authentication service.
  */
 @Entity
-@Table(name = "users")
+@Table(
+        name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"identification_number"})
+        }
+)
 public class User {
 
     /**
