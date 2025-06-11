@@ -34,10 +34,41 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
-      - name: Wait for SonarCloud Quality Gate result
-        uses: SonarSource/sonarcloud-quality-gate-action@v1.1.0
+      - name: Check SonarCloud Quality Gate status
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          echo "⌛ Esperando análisis en SonarCloud..."
+          sleep 10
+          projectKey="my-banking-app_bank-ms-authentication-service"
+
+          analysisId=$(curl -s -u "${SONAR_TOKEN}:" "https://sonarcloud.io/api/ce/component?component=${projectKey}" | jq -r '.queue[0].id')
+
+          # Esperamos que el análisis termine
+          status="PENDING"
+          attempts=0
+          while [ "$status" != "SUCCESS" ] && [ $attempts -lt 20 ]; do
+            sleep 5
+            status=$(curl -s -u "${SONAR_TOKEN}:" "https://sonarcloud.io/api/ce/task?id=${analysisId}" | jq -r '.task.status')
+            attempts=$((attempts+1))
+            echo "⏳ Esperando... (intento $attempts, estado actual: $status)"
+          done
+
+          if [ "$status" != "SUCCESS" ]; then
+            echo "❌ El análisis en SonarCloud no terminó correctamente."
+            exit 1
+          fi
+
+          qualityGate=$(curl -s -u "${SONAR_TOKEN}:" "https://sonarcloud.io/api/qualitygates/project_status?analysisId=${analysisId}" | jq -r '.projectStatus.status')
+
+          echo "🔍 Estado del Quality Gate: $qualityGate"
+
+          if [ "$qualityGate" != "OK" ]; then
+            echo "❌ El Quality Gate falló. Deteniendo el pipeline."
+            exit 1
+          fi
+
+          echo "✅ Quality Gate aprobado. Continuando con el pipeline."
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
