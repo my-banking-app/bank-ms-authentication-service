@@ -1,0 +1,17 @@
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 3600000
+
+api:
+  api.key: ${API_KEY}
+
+
+logging:
+  level:
+    org.springframework.web.filter.CorsFilter: DEBUG
+    org.springframework.web.servlet: DEBUG
+    org.springframework.security: DEBUG
+
+
+server:
+  port: 8082
