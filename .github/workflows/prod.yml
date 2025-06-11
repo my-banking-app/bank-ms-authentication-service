@@ -39,23 +39,20 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           echo "⌛ Esperando análisis en SonarCloud..."
-          sleep 10
+
           projectKey="my-banking-app_bank-ms-authentication-service"
-
-          analysisId=$(curl -s -u "${SONAR_TOKEN}:" "https://sonarcloud.io/api/ce/component?component=${projectKey}" | jq -r '.queue[0].id')
-
-          # Esperamos que el análisis termine
-          status="PENDING"
+          analysisId=""
           attempts=0
-          while [ "$status" != "SUCCESS" ] && [ $attempts -lt 20 ]; do
+
+          while [ -z "$analysisId" ] && [ $attempts -lt 10 ]; do
             sleep 5
-            status=$(curl -s -u "${SONAR_TOKEN}:" "https://sonarcloud.io/api/ce/task?id=${analysisId}" | jq -r '.task.status')
-            attempts=$((attempts+1))
-            echo "⏳ Esperando... (intento $attempts, estado actual: $status)"
+            analysisId=$(curl -s -u "${SONAR_TOKEN}:" "https://sonarcloud.io/api/project_analyses/search?project=${projectKey}" | jq -r '.analyses[0].analysisId')
+            attempts=$((attempts + 1))
+            echo "⏳ Buscando analysisId... intento $attempts: $analysisId"
           done
 
-          if [ "$status" != "SUCCESS" ]; then
-            echo "❌ El análisis en SonarCloud no terminó correctamente."
+          if [ -z "$analysisId" ]; then
+            echo "❌ No se pudo obtener el analysisId desde SonarCloud."
             exit 1
           fi
 
