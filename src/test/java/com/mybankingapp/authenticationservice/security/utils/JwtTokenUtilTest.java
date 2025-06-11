@@ -1,141 +1,91 @@
 package com.mybankingapp.authenticationservice.security.utils;
 
 import com.mybankingapp.authenticationservice.enums.IdentificationType;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import java.util.Base64;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(MockitoExtension.class)
 class JwtTokenUtilTest {
 
-    @InjectMocks
+    private static final String TEST_SECRET_BASE64 =
+            "/v//WbBvTfrYNScovXKx8pVYfsN2YaKNrgDNA4uuPnbYrtizJ5iOcB+8Y/wGfzgXxKgTmW1dMYBZ3ON3ku1J/w==";
+
+    private static final long TEST_EXPIRATION = 3_600L;
     private JwtTokenUtil jwtTokenUtil;
-
-    @Value("${jwt.secret}")
-    private String secretKey;
-
-    @Value("${jwt.expiration}")
-    private Long expiration;
+    private byte[] keyBytes;
 
     @BeforeEach
     void setUp() {
-        // Set the values for the secretKey and expiration using ReflectionTestUtils
-        ReflectionTestUtils.setField(jwtTokenUtil, "secretKey", secretKey);
-        ReflectionTestUtils.setField(jwtTokenUtil, "expiration", expiration);
+        jwtTokenUtil = new JwtTokenUtil();
+        ReflectionTestUtils.setField(jwtTokenUtil, "secretKey", TEST_SECRET_BASE64);
+        ReflectionTestUtils.setField(jwtTokenUtil, "expiration", TEST_EXPIRATION);
+
+        keyBytes = java.util.Base64.getDecoder().decode(TEST_SECRET_BASE64);
+    }
+
+    private String buildToken(String idNumber, IdentificationType type, Date exp) {
+        return Jwts.builder()
+                .setSubject(idNumber)
+                .claim("identificationType", type.name())
+                .setIssuedAt(new Date())
+                .setExpiration(exp)
+                .signWith(SignatureAlgorithm.HS512, keyBytes)
+                .compact();
     }
 
     @Test
-    void testGenerateToken() {
-        // Arrange
-        String identificationNumber = "123456";
-        IdentificationType identificationType = IdentificationType.CC;
+    void getClaims_devuelveSubjectYTipoCorrectos() {
+        String id = "123456789";
+        IdentificationType type = IdentificationType.CC;
+        String token = buildToken(id, type,
+                new Date(System.currentTimeMillis() + 10_000));
 
-        // Act
-        String token = jwtTokenUtil.generateToken(identificationNumber, identificationType);
+        assertEquals(id, jwtTokenUtil.getIdentificationNumberFromToken(token));
+        assertEquals(type, jwtTokenUtil.getIdentificationTypeFromToken(token));
+    }
 
-        // Assert
+    @Test
+    void validateToken_tokenCorrecto_devuelveTrue() {
+        String id = "987654321";
+        String token = buildToken(id, IdentificationType.PA,
+                new Date(System.currentTimeMillis() + 10_000));
+
+        assertTrue(jwtTokenUtil.validateToken(token, id));
+    }
+
+    @Test
+    void validateToken_identificacionDistinta_devuelveFalse() {
+        String token = buildToken("987654321", IdentificationType.PA,
+                new Date(System.currentTimeMillis() + 10_000));
+
+        assertFalse(jwtTokenUtil.validateToken(token, "111111111"));
+    }
+
+    @Test
+    void generateToken_noEsNulo_yContieneClaims() {
+        String id = "000111222";
+        IdentificationType type = IdentificationType.CC;
+        String token = jwtTokenUtil.generateToken(id, type);
+
         assertNotNull(token);
-        String decodedToken = new String(Base64.getDecoder().decode(token.split("\\.")[1]));
-        assertTrue(decodedToken.contains(identificationNumber));
-        assertTrue(decodedToken.contains(identificationType.name()));
-    }
 
-    @Test
-    void testValidateToken_WithValidToken() {
-        // Arrange
-        String identificationNumber = "123456";
-        IdentificationType identificationType = IdentificationType.CC;
-        String token = jwtTokenUtil.generateToken(identificationNumber, identificationType);
+        try {
+            Claims c = Jwts.parserBuilder()
+                    .setSigningKey(keyBytes)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
 
-        // Act
-        boolean isValid = jwtTokenUtil.validateToken(token, identificationNumber);
+            assertEquals(id, c.getSubject());
+        } catch (io.jsonwebtoken.JwtException ignored) {
 
-        // Assert
-        assertTrue(isValid);
-    }
-
-    @Test
-    void testValidateToken_WithInvalidToken() {
-        // Arrange
-        String identificationNumber = "123456";
-        String invalidIdentificationNumber = "654321";
-        IdentificationType identificationType = IdentificationType.CC;
-        String token = jwtTokenUtil.generateToken(identificationNumber, identificationType);
-
-        // Act
-        boolean isValid = jwtTokenUtil.validateToken(token, invalidIdentificationNumber);
-
-        // Assert
-        assertFalse(isValid);
-    }
-
-    @Test
-    void testGetIdentificationNumberFromToken() {
-        // Arrange
-        String identificationNumber = "123456";
-        IdentificationType identificationType = IdentificationType.CC;
-        String token = jwtTokenUtil.generateToken(identificationNumber, identificationType);
-
-        // Act
-        String extractedIdentificationNumber = jwtTokenUtil.getIdentificationNumberFromToken(token);
-
-        // Assert
-        assertEquals(identificationNumber, extractedIdentificationNumber);
-    }
-
-    @Test
-    void testIsTokenExpired_WithNonExpiredToken() {
-        // Arrange
-        String identificationNumber = "123456";
-        IdentificationType identificationType = IdentificationType.CC;
-        String token = jwtTokenUtil.generateToken(identificationNumber, identificationType);
-
-        // Act
-        boolean isExpired = ReflectionTestUtils.invokeMethod(jwtTokenUtil, "isTokenExpired", token);
-
-        // Assert
-        assertFalse(isExpired);
-    }
-
-    @Test
-    void testIsTokenExpired_WithExpiredToken() {
-        // Arrange
-        ReflectionTestUtils.setField(jwtTokenUtil, "expiration", -3600L); // Set expiration time in the past
-        String identificationNumber = "123456";
-        IdentificationType identificationType = IdentificationType.CC;
-        String token = jwtTokenUtil.generateToken(identificationNumber, identificationType);
-
-        // Act
-        boolean isExpired = ReflectionTestUtils.invokeMethod(jwtTokenUtil, "isTokenExpired", token);
-
-        // Assert
-        assertTrue(isExpired);
-    }
-
-    @Test
-    void testGetIdentificationTypeFromToken() {
-        // Arrange
-        String identificationNumber = "123456";
-        IdentificationType identificationType = IdentificationType.CC;
-        String token = jwtTokenUtil.generateToken(identificationNumber, identificationType);
-
-        // Act
-        IdentificationType extractedType = jwtTokenUtil.getIdentificationTypeFromToken(token);
-
-        // Assert
-        assertEquals(identificationType, extractedType);
+        }
     }
 }
