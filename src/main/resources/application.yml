@@ -14,4 +14,4 @@ logging:
 
 
 server:
-  port: ${PORT}
+  port: 8082
