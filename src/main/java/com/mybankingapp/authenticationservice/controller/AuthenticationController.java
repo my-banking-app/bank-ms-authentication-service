@@ -54,9 +54,15 @@ public class AuthenticationController {
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
             }
-        } catch (Exception e) {
+        } catch (Exception e) {                 
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Login failed: " + e.getMessage());
         }
     }
 }
+
+
+
+
+
+
