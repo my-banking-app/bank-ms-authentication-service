@@ -1,3 +1,1 @@
-"# bank-ms-authentication-service"
-
-# Features
+# Bank Microservices Authentication Service
