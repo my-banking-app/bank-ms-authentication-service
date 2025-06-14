@@ -36,7 +36,9 @@ jobs:
             -Dsonar.projectKey=my-banking-app_bank-ms-authentication-service \
             -Dsonar.organization=my-banking-app \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.exclusions=**/*Test.java \
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
 
       - name: Extract ceTaskId from report
         id: extract-task-id
