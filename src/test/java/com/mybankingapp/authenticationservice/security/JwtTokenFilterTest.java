@@ -11,7 +11,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -98,8 +97,6 @@ class JwtTokenFilterTest {
         verify(filterChain, times(1)).doFilter(request, response);
         assertNull(SecurityContextHolder.getContext().getAuthentication());
     }
-
-
 
     @Test
     void testDoFilterInternal_WithoutToken() throws ServletException, IOException {
