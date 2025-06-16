@@ -30,7 +30,7 @@ public class ApiKeyFilter extends OncePerRequestFilter {
      * The expected API key value, injected from the application properties.
      */
     @Value("${api.key}")
-    private String API_KEY;
+    private String apikey;
 
     /**
      * Filters incoming requests to check for a valid API key.
@@ -52,7 +52,7 @@ public class ApiKeyFilter extends OncePerRequestFilter {
             return;
         }
 
-        if (!API_KEY.equals(apiKeyHeader)) {
+        if (!apikey.equals(apiKeyHeader)) {
             sendUnauthorizedResponse.sendUnauthorizedResponse(response, "Unauthorized: Invalid API key");
             return;
         }

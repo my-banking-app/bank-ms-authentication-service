@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * REST controller for handling authentication-related requests.
@@ -22,6 +24,9 @@ public class AuthenticationController {
      */
     @Autowired
     private UserService userService;
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
+
 
     /**
      * Registers a new user.
@@ -55,7 +60,7 @@ public class AuthenticationController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Login failed", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Login failed: " + e.getMessage());
         }
     }
